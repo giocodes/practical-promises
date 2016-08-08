@@ -38,7 +38,7 @@ function problemA() {
      *
      */
 
-    // callback version
+    callback version
     async.each(['poem-two/stanza-01.txt', 'poem-two/stanza-02.txt'],
         function(filename, eachDone) {
             readFile(filename, function(err, stanza) {
@@ -53,8 +53,41 @@ function problemA() {
     );
 
     // promise version
-    var arr = [promisifiedReadFile('poem-two/stanza-01.txt'), promisifiedReadFile('poem-two/stanza-02.txt')];
-    Promise.all(arr).then()
+
+    // ZEKE Version
+
+    var promises = [];
+    promises.push(promisifiedReadFile('poem-two/stanza-01.txt').then(blue));
+    promises.push(promisifiedReadFile('poem-two/stanza-02.txt').then(blue));
+
+    Promise.all(promises)
+        .then(function(){
+            console.log('-- A. callback version done --');
+        })
+
+    var arr = ['poem-two/stanza-01.txt',
+        'poem-two/stanza-02.txt'
+    ];
+
+    // Our Version
+
+    // Promise.each(arr, function(item) {
+    //     return promisifiedReadFile(item)
+    //         .then(function(stanza) {
+    //             console.log('-- A. callback version --');
+    //             blue(stanza);
+    //         })
+    //         .catch(function(err) {
+    //         magenta(err);
+    //     })
+    // })
+    // .then(function() {
+    //         // console.log('-- A. callback version --');
+    //         console.log('-- A. callback version done --');
+    //     })
+    // .catch(function(err) {
+    //         magenta(err);
+    //     })
 
 
 
